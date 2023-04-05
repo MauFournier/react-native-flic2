@@ -28,6 +28,7 @@ import nl.xguard.flic2.R;
 import nl.xguard.flic2.model.ReactAndroidHandler;
 import nl.xguard.flic2.model.ReactLogger;
 
+import android.content.pm.ApplicationInfo;
 
 public class Flic2Service extends Service implements IFlic2Service {
 
@@ -59,36 +60,41 @@ public class Flic2Service extends Service implements IFlic2Service {
         Log.d(TAG, "onCreate()");
 
       try {
-        Context context = getApplicationContext();
-        Bundle metadata = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData;
+      Context context = getApplicationContext();
+      ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+      if (appInfo != null && appInfo.metaData != null) {
+          Bundle metadata = appInfo.metaData;
 
-        String title = metadata.getString(NOTIFICATION_TITLE_KEY);
-        if (title != null) {
-          notificationTitle = title;
-        }
+          String title = metadata.getString(NOTIFICATION_TITLE_KEY);
+          if (title != null) {
+              notificationTitle = title;
+          }
 
-        String text = metadata.getString(NOTIFICATION_TEXT_KEY);
-        if (text != null) {
-          notificationText = text;
-        }
+          String text = metadata.getString(NOTIFICATION_TEXT_KEY);
+          if (text != null) {
+              notificationText = text;
+          }
 
-        int icon = metadata.getInt(NOTIFICATION_ICON_KEY);
-        if (icon != 0) {
-          notificationIcon = icon;
-        }
+          int icon = metadata.getInt(NOTIFICATION_ICON_KEY);
+          if (icon != 0) {
+              notificationIcon = icon;
+          }
 
-        String name = metadata.getString(KEY_CHANNEL_NAME);
-        if (name != null) {
-          channelName = name;
-        }
+          String name = metadata.getString(KEY_CHANNEL_NAME);
+          if (name != null) {
+              channelName = name;
+          }
 
-        String description = metadata.getString(KEY_CHANNEL_DESCRIPTION);
-        if (description != null) {
+          String description = metadata.getString(KEY_CHANNEL_DESCRIPTION);
+          if (description != null) {
           channelDescription = description;
-        }
+          }
 
+        } else {
+          Log.w(TAG, "onCreate(), metaData is null");
+        }
       } catch (PackageManager.NameNotFoundException e) {
-        Log.w(TAG, "onCreate(), NameNotFoundException", e);
+      Log.w(TAG, "onCreate(), NameNotFoundException", e);
       }
 
       Flic2Manager.init(getApplicationContext(), new ReactAndroidHandler(new Handler()), new ReactLogger());
