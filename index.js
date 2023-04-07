@@ -97,31 +97,31 @@ class Flic2 extends EventEmitter {
 
     // listen to events
     // Ensure the required methods exist in Flic2Module
-  if (typeof Flic2Module.addListener !== 'function') {
-    Flic2Module.addListener = (eventName, callback) => {
-      Flic2Module.eventHandlers = Flic2Module.eventHandlers || {};
-      Flic2Module.eventHandlers[eventName] = Flic2Module.eventHandlers[eventName] || [];
-      Flic2Module.eventHandlers[eventName].push(callback);
-    };
-  }
+    if (typeof Flic2Module.addListener !== 'function') {
+      Flic2Module.addListener = (eventName, callback) => {
+        Flic2Module.eventHandlers = Flic2Module.eventHandlers || {};
+        Flic2Module.eventHandlers[eventName] = Flic2Module.eventHandlers[eventName] || [];
+        Flic2Module.eventHandlers[eventName].push(callback);
+      };
+    }
 
-  if (typeof Flic2Module.removeListener !== 'function') {
-    Flic2Module.removeListener = (eventName, callback) => {
-      if (Flic2Module.eventHandlers && Flic2Module.eventHandlers[eventName]) {
-        Flic2Module.eventHandlers[eventName] = Flic2Module.eventHandlers[eventName].filter(
-          (handler) => handler !== callback
-        );
-      }
-    };
-  }
+    if (typeof Flic2Module.removeListener !== 'function') {
+      Flic2Module.removeListener = (eventName, callback) => {
+        if (Flic2Module.eventHandlers && Flic2Module.eventHandlers[eventName]) {
+          Flic2Module.eventHandlers[eventName] = Flic2Module.eventHandlers[eventName].filter(
+            (handler) => handler !== callback
+          );
+        }
+      };
+    }
 
-  if (typeof Flic2Module.removeListeners !== 'function') {
-    Flic2Module.removeListeners = (eventName) => {
-      if (Flic2Module.eventHandlers) {
-        delete Flic2Module.eventHandlers[eventName];
-      }
-    };
-  }
+    if (typeof Flic2Module.removeListeners !== 'function') {
+      Flic2Module.removeListeners = (eventName) => {
+        if (Flic2Module.eventHandlers) {
+          delete Flic2Module.eventHandlers[eventName];
+        }
+      };
+    }
 
     this.nativeEvents = new NativeEventEmitter(Flic2Module);
     
