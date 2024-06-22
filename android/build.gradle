@@ -69,8 +69,8 @@ repositories {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    debugImplementation "com.facebook.react:react-native:0.71.4"
-    releaseImplementation "com.facebook.react:react-native:0.71.4"
+    debugImplementation "com.facebook.react:react-native:0.74.2"
+    releaseImplementation "com.facebook.react:react-native:0.74.2"
 
     implementation 'com.github.50ButtonsEach:flic2lib-android:1.1.0'
 
